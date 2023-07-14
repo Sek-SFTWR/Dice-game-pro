@@ -1,45 +1,84 @@
-// toglogchiin eeljiig hadgalh huwisagch  togloch1 =0 , toglogch2 =1 .
-var  activePlayer = 1;
 
-// toglogchdiin tsugluulsan onoog hadgalah huwisagch
- var scores = [0,0];
-// toglogchiin eeljndee tsugluulsan onoog hadgalah huwisagch
- var roundScore = 0;
-// shoo ali talaaraa buusaniig hadgalah huwisagch hrgteu , 1-6 gesen utgiig ene huwisagchd sanamsargvigeer vvsgej ugnu.
- var diceNumber = Math.floor(Math.random()*6) + 1 ;
-   
- window.document.getElementById('score-0').textContent = 0;
-window.document.getElementById('score-1').textContent = 0;
+var diceDom = document.querySelector(".dice");
+var activePlayer , scores, roundScore; 
 
+initGame();
 
-window.document.getElementById('current-0').textContent = 0;
-window.document.getElementById('current-1').textContent = 0;
-
-
-//togloom ehlehed beldeh
-
- var diceDom = window.document.querySelector('.dice');
-
-window.document.querySelector(".btn-roll").addEventListener("click",function (){
-
-    var diceNumber = Math.floor(Math.random()*6) + 1 ;
+function initGame(){
     
-    diceDom.style.display = "block";
-    diceDom.src = "dice-"+diceNumber+ ".png";
-    
-    if(diceNumber !== 1) {
-        roundScore +=diceNumber;  
-        document.getElementById("current-"+activePlayer).textContent=roundScore;
-    }else {
-         roundScore = 0;
-        document.getElementById("current-"+activePlayer).textContent = 0;
-        activePlayer === 0 ? (activePlayer=1):(activePlayer=0);
-        //ulaan tsegiig shiljvvleh
-         document.querySelector(".player-0-panel").classList.toggle("active");
-         document.querySelector(".player-1-panel").classList.toggle("active");
-         // shoog tvr alga bolgono
-         diceDom.style.display = "none";
-            }
-      
+    activePlayer = 0;
+ 
+     scores = [0, 0];
+ 
+     roundScore = 0;
+ 
+ document.getElementById("score-0").textContent = "0";
+ document.getElementById("score-1").textContent = "0";
+ document.getElementById("current-0").textContent = "0";
+ document.getElementById("current-1").textContent = "0";
+ 
+ document.getElementById('name-0').textContent="Player 1";
+ document.getElementById('name-1').textContent="Player 2"
+
+ document.querySelector('.player-0-panel').classList.remove("winner");
+ document.querySelector('.player-1-panel').classList.remove("winner");
+ 
+ document.querySelector('.player-0-panel').classList.remove("active");
+ document.querySelector('.player-1-panel').classList.remove("active");
+ 
+ document.querySelector('.player-0-panel').classList.add("active");
+
+ diceDom.style.display = "none";
+  }
+
+
+document.querySelector(".btn-roll").addEventListener("click", function() {
+  var diceNumber = Math.floor(Math.random() * 6) + 1;
+
+  diceDom.style.display = "block";
+
+  diceDom.src = "dice-" + diceNumber + ".png";
+
+  if (diceNumber !== 1) {
+    roundScore = roundScore + diceNumber;
+    document.getElementById("current-" + activePlayer).textContent = roundScore;
+  } else {      
+    switchToNextPlayer();
+  }
 });
 
+document.querySelector(".btn-hold").addEventListener("click", function() {
+
+  scores[activePlayer] = scores[activePlayer] + roundScore;
+
+  document.getElementById("score-" + activePlayer).textContent =
+    scores[activePlayer];
+
+  if (scores[activePlayer] >= 10) {
+    document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.add("winner");
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.remove("active");
+  } else {
+    switchToNextPlayer();
+  }
+});
+
+function switchToNextPlayer() {
+  roundScore = 0;
+  document.getElementById("current-" + activePlayer).textContent = 0;
+  activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
+
+  document.querySelector(".player-0-panel").classList.toggle("active");
+  document.querySelector(".player-1-panel").classList.toggle("active");
+
+  diceDom.style.display = "none";
+}
+document.querySelector(".btn-new").addEventListener('click',function(){
+   initGame();
+
+})
+ 

@@ -7,6 +7,13 @@ var  activePlayer = 1;
  var roundScore = 0;
 // shoo ali talaaraa buusaniig hadgalah huwisagch hrgteu , 1-6 gesen utgiig ene huwisagchd sanamsargvigeer vvsgej ugnu.
  var diceNumber = Math.floor(Math.random()*6) + 1 ;
+   
+ window.document.getElementById('score-0').textContent = 0;
+window.document.getElementById('score-1').textContent = 0;
+
+
+window.document.getElementById('current-0').textContent = 0;
+window.document.getElementById('current-1').textContent = 0;
 
 
 //togloom ehlehed beldeh
@@ -24,19 +31,15 @@ window.document.querySelector(".btn-roll").addEventListener("click",function (){
         roundScore +=diceNumber;  
         document.getElementById("current-"+activePlayer).textContent=roundScore;
     }else {
-
+         roundScore = 0;
         document.getElementById("current-"+activePlayer).textContent = 0;
         activePlayer === 0 ? (activePlayer=1):(activePlayer=0);
         //ulaan tsegiig shiljvvleh
-         document.getElementsByClassName("player-0-panel").classList.remove("active");
-         document.getElementsByClassName("player-1-panel").classList.add("active");
-    }
+         document.querySelector(".player-0-panel").classList.toggle("active");
+         document.querySelector(".player-1-panel").classList.toggle("active");
+         // shoog tvr alga bolgono
+         diceDom.style.display = "none";
+            }
       
 });
 
-window.document.getElementById('score-0').textContent = 0;
-window.document.getElementById('score-1').textContent = 0;
-
-
-window.document.getElementById('current-0').textContent = 0;
-window.document.getElementById('current-1').textContent = 0;

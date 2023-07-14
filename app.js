@@ -19,8 +19,19 @@ window.document.querySelector(".btn-roll").addEventListener("click",function (){
     
     diceDom.style.display = "block";
     diceDom.src = "dice-"+diceNumber+ ".png";
-      
+    
+    if(diceNumber !== 1) {
+        roundScore +=diceNumber;  
+        document.getElementById("current-"+activePlayer).textContent=roundScore;
+    }else {
 
+        document.getElementById("current-"+activePlayer).textContent = 0;
+        activePlayer === 0 ? (activePlayer=1):(activePlayer=0);
+        //ulaan tsegiig shiljvvleh
+         document.getElementsByClassName("player-0-panel").classList.remove("active");
+         document.getElementsByClassName("player-1-panel").classList.add("active");
+    }
+      
 });
 
 window.document.getElementById('score-0').textContent = 0;

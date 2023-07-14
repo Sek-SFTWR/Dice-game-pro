@@ -1,11 +1,11 @@
 
 var diceDom = document.querySelector(".dice");
 var activePlayer , scores, roundScore; 
-
+var isNewGame ; 
 initGame();
 
 function initGame(){
-    
+    isNewGame =true;
     activePlayer = 0;
  
      scores = [0, 0];
@@ -33,38 +33,50 @@ function initGame(){
 
 
 document.querySelector(".btn-roll").addEventListener("click", function() {
-  var diceNumber = Math.floor(Math.random() * 6) + 1;
 
-  diceDom.style.display = "block";
+    if(isNewGame) {
+        var diceNumber = Math.floor(Math.random() * 6) + 1;
 
-  diceDom.src = "dice-" + diceNumber + ".png";
-
-  if (diceNumber !== 1) {
-    roundScore = roundScore + diceNumber;
-    document.getElementById("current-" + activePlayer).textContent = roundScore;
-  } else {      
-    switchToNextPlayer();
-  }
+        diceDom.style.display = "block";
+      
+        diceDom.src = "dice-" + diceNumber + ".png";
+      
+        if (diceNumber !== 1) {
+          roundScore = roundScore + diceNumber;
+          document.getElementById("current-" + activePlayer).textContent = roundScore;
+        } else {      
+          switchToNextPlayer();
+        }
+    }else{
+        alert("Game is over");
+    }
+  
 });
 
 document.querySelector(".btn-hold").addEventListener("click", function() {
 
-  scores[activePlayer] = scores[activePlayer] + roundScore;
+ if(isNewGame){
+    scores[activePlayer] = scores[activePlayer] + roundScore;
 
-  document.getElementById("score-" + activePlayer).textContent =
-    scores[activePlayer];
-
-  if (scores[activePlayer] >= 10) {
-    document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.add("winner");
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.remove("active");
-  } else {
-    switchToNextPlayer();
-  }
+    document.getElementById("score-" + activePlayer).textContent =
+      scores[activePlayer];
+  
+    if (scores[activePlayer] >= 10) {
+      isNewGame= false;
+  
+      document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.add("winner");
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.remove("active");
+    } else {
+      switchToNextPlayer();
+    }
+ }else{
+    alert("Game is over...");
+ }
 });
 
 function switchToNextPlayer() {
